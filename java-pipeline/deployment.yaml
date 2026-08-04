@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+	name: hello-java
+
+spec:
+	replicas: 2
+	
+	selector:
+		matchLabels:
+			app: hello-java
+	
+	template:
+		metadata:
+			labels:
+				app: hello-java
+
+		spec:
+			containers:
+				- name: hello-java
+				  image: divyanshu0108/hello-java:latest
+					
+				  imagePulPolicy: Always
+	

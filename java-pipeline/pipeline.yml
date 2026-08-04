@@ -1,0 +1,47 @@
+name: Java Docker Kubernetes Pipeline
+
+on:
+	push:
+		branches:
+			- main
+
+jobs: 
+	build:
+		runs-on: ubuntu-latest
+
+		steps: 
+		
+			- name: Checkout Repository
+			  uses: actions/checkout@v4
+
+			- name: Set up Java
+			  uses: actions/setup-java@v4
+			  with:
+				distribution: temurin
+				java-version: '21'
+
+			- name: Compile Java
+			  run: javac HelloWorld.java
+
+			- name: Login to Docker Hub
+			  uses: docker/login-action@v3
+			  with:
+				username: ${{ secrets.Divyanshu0108 }}
+				password: ${{ secrets.Q9gRPq@1301 }}
+
+			- name: Build Docker Image
+			  run: |
+				docker build -t ${{ secrets.Divyanshu0108 }}/hello-java:latest .
+
+			- name: Push Docker Image
+			  run: |
+                                docker push ${{ secrets.Q9gRPq@1301 }}/hello-java:latest
+
+			- name: Configure kubectl
+			  uses: azure/setup-kubectl@v4
+
+			- name: Deploy to Kubernetes
+			  run: |
+				kubectl apply -f deployment.yaml
+				kubectl apply -f service.yaml
+
